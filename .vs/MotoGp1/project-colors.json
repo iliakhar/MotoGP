@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Прочие файлы",
+      "ColorIndex": -1
+    },
+    "b2eade25-3bd0-4091-a6c5-9b7787a37dc6": {
+      "ProjectGuid": "b2eade25-3bd0-4091-a6c5-9b7787a37dc6",
+      "DisplayName": "MotoGP",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

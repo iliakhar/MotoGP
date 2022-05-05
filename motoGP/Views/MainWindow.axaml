@@ -1,0 +1,134 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:motoGP.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
+		Width="700" Height="500"
+		MinWidth="700" MinHeight="500"
+        x:Class="motoGP.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="motoGP">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<TabControl >
+		<TabItem Header="Table" VerticalContentAlignment="Center" FontSize="15">
+			<Grid ColumnDefinitions="180,*" RowDefinitions="*,50" ShowGridLines="False" MinWidth="500" Background="LightGray" Margin="0,0,0,10">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.RowSpan="2" Grid.Row="0">
+					<ListBox Items="{Binding Items}" >
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding a}"/>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</ScrollViewer>
+
+				<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0">
+					<DataGrid Items="{Binding Items}" AutoGenerateColumns="false" Name="MainGrid" ColumnWidth="108"
+							  HorizontalAlignment="Stretch" VerticalAlignment="Top">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="column 1">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding a}"  Width="108" TextAlignment="Center"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+								<DataGridTemplateColumn.CellEditingTemplate>
+									<DataTemplate>
+										<TextBox Text="{Binding a}" Width="108"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellEditingTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTemplateColumn Header="column 2">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding b}"  Width="108" TextAlignment="Center"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+								<DataGridTemplateColumn.CellEditingTemplate>
+									<DataTemplate>
+										<TextBox Text="{Binding b}" Width="108"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellEditingTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTemplateColumn Header="column 3">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding c}"  Width="108" TextAlignment="Center"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+								<DataGridTemplateColumn.CellEditingTemplate>
+									<DataTemplate>
+										<TextBox Text="{Binding c}" Width="108"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellEditingTemplate>
+							</DataGridTemplateColumn>
+
+
+						</DataGrid.Columns>
+					</DataGrid>
+				</ScrollViewer>
+				<Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Height="49" Content="Request"
+						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+
+			</Grid>
+		</TabItem>
+		<TabItem Header="Request" VerticalContentAlignment="Center" FontSize="15">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" Background="LightGray" Margin="0,0,0,10">
+				<DataGrid Items="{Binding Items}" AutoGenerateColumns="false" Name="RequestGrid" ColumnWidth="108"
+						  HorizontalAlignment="Stretch" VerticalAlignment="Top">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="column 1">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding a}"  Width="108" TextAlignment="Center"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+							<DataGridTemplateColumn.CellEditingTemplate>
+								<DataTemplate>
+									<TextBox Text="{Binding a}" Width="108"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellEditingTemplate>
+						</DataGridTemplateColumn>
+
+						<DataGridTemplateColumn Header="column 2">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding b}"  Width="108" TextAlignment="Center"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+							<DataGridTemplateColumn.CellEditingTemplate>
+								<DataTemplate>
+									<TextBox Text="{Binding b}" Width="108"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellEditingTemplate>
+						</DataGridTemplateColumn>
+
+						<DataGridTemplateColumn Header="column 3">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding c}"  Width="108" TextAlignment="Center"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+							<DataGridTemplateColumn.CellEditingTemplate>
+								<DataTemplate>
+									<TextBox Text="{Binding c}" Width="108"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellEditingTemplate>
+						</DataGridTemplateColumn>
+
+
+					</DataGrid.Columns>
+				</DataGrid>
+			</ScrollViewer>
+		</TabItem>
+	</TabControl>
+	
+
+</Window>
