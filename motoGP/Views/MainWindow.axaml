@@ -76,7 +76,18 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</ScrollViewer>
-				<Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Height="49" Content="Request"
+				<StackPanel  Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Width="496">
+					<Button HorizontalAlignment="Stretch" Height="49" Content="Add col" Width="124"
+						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+					<Button HorizontalAlignment="Stretch" Height="49" Content="Delete col" Width="124"
+						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+					<Button HorizontalAlignment="Stretch" Height="49" Content="Add row" Width="124"
+						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+					<Button HorizontalAlignment="Stretch" Height="49" Content="Delete row" Width="124"
+						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+
+				</StackPanel>
+				<Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Height="49" Content="Request"
 						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
 
 			</Grid>

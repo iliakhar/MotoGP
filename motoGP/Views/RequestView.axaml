@@ -8,77 +8,79 @@
 			 MaxWidth="850" MaxHeight="700"
              x:Class="motoGP.Views.Request">
 
-	<Grid RowDefinitions="*,*,*,50" ColumnDefinitions="2.5*,*" ShowGridLines="False"
+	<Grid RowDefinitions="1.5*,*,50" ColumnDefinitions="2.5*,*" ShowGridLines="False"
 	  Background="LightGray" >
-		<Border BorderBrush="#696969"  Grid.RowSpan="3" BorderThickness="2" Grid.Column="1" Grid.Row="0" Margin="1">
+		<Border BorderBrush="#696969"  Grid.RowSpan="2" BorderThickness="2" Grid.Column="1" Grid.Row="0" Margin="1">
 			<StackPanel>
-				<TextBlock Text="Requests:" FontSize="18" Margin="8"/>
-				<ListBox Margin="4" MinHeight="540" Background="#E8E8E8"
+				<TextBlock Text="Requests:" FontSize="18" Margin="8,7,8,8"/>
+				<ListBox Margin="4,0,4,4" MinHeight="540" Background="#E8E8E8"
 						  BorderThickness="1" BorderBrush="#696969">12345</ListBox>
 				<Button Height="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-						HorizontalAlignment="Stretch" Margin="3,0,4,3" FontSize="18" Content="Delete request"/>
+						HorizontalAlignment="Stretch" Margin="3,3,4,3" FontSize="18" Content="Delete"/>
 			</StackPanel>
 		</Border>
 
 		<Border BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="0" Margin="1">
-			<Grid RowDefinitions="0.7*,*,*,*,*" ColumnDefinitions="1.3*,*" ShowGridLines="False">
-				<TextBlock Grid.Column="0" Grid.Row="0" Text="Select:" FontSize="20" FontWeight="Bold" Margin="10,2,0,0"/>
+			<Grid RowDefinitions="0.3*,*,*,*,*,*" ColumnDefinitions="1.3*,*" ShowGridLines="False">
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="Select:" FontSize="20" FontWeight="Bold" Margin="10,5,0,0"/>
 				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-					<TextBlock Text="Table:" FontSize="18" Margin="10,3,10,0"/>
-					<ComboBox TextBlock.FontSize="15" MinWidth="270"></ComboBox>
+					<TextBlock Text="Table:" FontSize="18" Margin="10,-8,10,0"/>
+					<ComboBox TextBlock.FontSize="15" MinWidth="270" Margin="0,-11,0,0"></ComboBox>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3">
-					<TextBlock Text="Columns:" FontSize="18" Margin="10,11,10,0"/>
-					<ListBox  MinWidth="130" MaxWidth="130" Background="#E8E8E8" Margin="0,6,0,5"
+				<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+					<TextBlock Text="Columns:" FontSize="18" Margin="10,18,10,0"/>
+					<ListBox  MinWidth="143" MaxWidth="130" Background="#E8E8E8" Margin="0,12,0,5"
 							 SelectionMode="Multiple,Toggle" BorderThickness="1" BorderBrush="#696969">1234</ListBox>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center">
+					<TextBlock Text="Group:" FontSize="18" Margin="7,-2,5,0"/>
+					<ComboBox TextBlock.FontSize="15" MinWidth="360" Margin="3,-8,0,0"></ComboBox>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">
 					<TextBlock Text="Where:" FontSize="18" Margin="7,6,5,0"/>
-					<TextBox Height="35" Width="360"/>
+					<ComboBox Height="35" Width="200" />
+					<ComboBox Height="35" Width="100" Margin="5,0,0,0"/>
+					<TextBox Height="35" Width="200" Margin="5,0,0,0"/>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Grid.RowSpan="1" VerticalAlignment="Center">
-					<TextBlock Text="Group:" FontSize="18" Margin="7,6,5,0"/>
-					<ComboBox TextBlock.FontSize="15" MinWidth="360" Margin="3,0,0,0"></ComboBox>
+				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Center">
+					<ComboBox Height="35" Width="100" Margin="72,11,0,0"/>
+					<Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Content="Input" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center"  FontSize="18" Height="40"
+						Margin="10,1,10,4" HorizontalAlignment="Stretch"/>
+					<TextBox Height="60" Width="329" AcceptsReturn="True" TextWrapping="Wrap"/>
 				</StackPanel>
-				<Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="Add request" VerticalContentAlignment="Center"
+
+				<Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Content="Add" VerticalContentAlignment="Center"
 						HorizontalContentAlignment="Center" Height="50" FontSize="18"
 						Margin="10,1,10,4" HorizontalAlignment="Stretch"/>
 			</Grid>
 		</Border>
 
 		<Border BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="1"  Margin="1">
-			<Grid RowDefinitions="0.4*,*,0.4*" ColumnDefinitions="*,*" ShowGridLines="False">
+			<Grid RowDefinitions="0.2*,*,0.4*" ColumnDefinitions="*,*" ShowGridLines="False">
 				<TextBlock Grid.Column="0" Grid.Row="0" Text="Join:" FontSize="20" FontWeight="Bold" Margin="10,5,0,0"/>
 				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
 					<TextBlock Text="Tables:" FontSize="18" Margin="10,11,10,0"/>
 					<ListBox  MinWidth="130" MaxWidth="130" Background="#E8E8E8" Margin="0,6,0,5"
 							 SelectionMode="Multiple,Toggle" BorderThickness="1" BorderBrush="#696969">1234</ListBox>
 				</StackPanel>
-
-				<Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Content="Add request" VerticalContentAlignment="Center"
-						HorizontalContentAlignment="Center" Height="50" FontSize="18"
-						Margin="10,4,10,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-			</Grid>
-		</Border>
-
-
-		<Border BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="2"  Margin="1">
-			<Grid RowDefinitions="0.4*,*,*" ColumnDefinitions="*" ShowGridLines="False">
-				<TextBlock Grid.Column="0" Grid.Row="0" Text="Subrequest:" FontSize="20" FontWeight="Bold" Margin="10,5,0,0"/>
-				<StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-					<TextBlock Text="(Select the request from the list of requests and click the "
-							   HorizontalAlignment="Center" Width="600" FontSize="20" Margin="10,3,10,0"/>
-					<TextBlock Text="'Add request' button)"
-							   HorizontalAlignment="Center" FontSize="20" Margin="10,3,10,0"/>
+				<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+					<TextBlock Text="Atributes:" FontSize="18" Margin="10,11,10,0"/>
+					<ListBox  MinWidth="130" MaxWidth="130" Background="#E8E8E8" Margin="0,6,0,5"
+							 SelectionMode="Multiple,Toggle" BorderThickness="1" BorderBrush="#696969">1234</ListBox>
 				</StackPanel>
-				<Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Content="Add request" VerticalContentAlignment="Center"
+
+				<Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Content="Add" VerticalContentAlignment="Center"
 						HorizontalContentAlignment="Center" Height="50" FontSize="18"
 						Margin="10,4,10,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
 			</Grid>
 		</Border>
-		<Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Content="Execute" VerticalContentAlignment="Center"
+
+
+
+		<Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Content="Execute" VerticalContentAlignment="Center"
 						HorizontalContentAlignment="Center" Height="50" FontSize="18"
 						Margin="6,2,6,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
 	</Grid>
-
 </UserControl>
