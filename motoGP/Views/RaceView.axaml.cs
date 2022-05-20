@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace motoGP.Views
 {
-    public partial class Request : Window
+    public partial class RaceView : UserControl
     {
-        public Request()
+        public RaceView()
         {
             InitializeComponent();
         }

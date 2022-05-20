@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
 		
-		        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
-		Width="700" Height="500" MaxHeight="500"
+		        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+		Width="800" Height="500" MaxHeight="500"
 		MinWidth="700" MinHeight="500"
         x:Class="motoGP.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -15,107 +15,40 @@
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
-
-	<TabControl >
+	<TabControl SelectedIndex="{Binding CurrTabInd}">
 		<TabItem Header="Table" VerticalContentAlignment="Center" FontSize="15">
 			<Grid ColumnDefinitions="180,*" RowDefinitions="*,50" ShowGridLines="False" MinWidth="500" Background="LightGray" Margin="0,0,0,10">
-				<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.RowSpan="2" Grid.Row="0">
-					<ListBox Items="{Binding Items}" >
+				<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.RowSpan="2" Grid.Row="0" >
+					<ListBox Items="{Binding TableName}" SelectionChanged="ListBox_SelectionChanged" SelectedIndex="{Binding TablesInd}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding a}"/>
+								<TextBlock Text="{Binding Name}"/>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>
 				</ScrollViewer>
 
 				<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0">
-					<DataGrid Items="{Binding Items}" AutoGenerateColumns="false" Name="MainGrid" ColumnWidth="108"
-							  HorizontalAlignment="Stretch" VerticalAlignment="Top">
-						<DataGrid.Columns>
-							<DataGridTemplateColumn Header="column 1">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding a}"  Width="108" TextAlignment="Center"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-								<DataGridTemplateColumn.CellEditingTemplate>
-									<DataTemplate>
-										<TextBox Text="{Binding a}" Width="108"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellEditingTemplate>
-							</DataGridTemplateColumn>
-
-							<DataGridTemplateColumn Header="column 2">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding b}"  Width="108" TextAlignment="Center"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-								<DataGridTemplateColumn.CellEditingTemplate>
-									<DataTemplate>
-										<TextBox Text="{Binding b}" Width="108"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellEditingTemplate>
-							</DataGridTemplateColumn>
-
-							<DataGridTemplateColumn Header="column 3">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding c}"  Width="108" TextAlignment="Center"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-								<DataGridTemplateColumn.CellEditingTemplate>
-									<DataTemplate>
-										<TextBox Text="{Binding c}" Width="108"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellEditingTemplate>
-							</DataGridTemplateColumn>
-
-
-						</DataGrid.Columns>
-					</DataGrid>
+					<UserControl Content="{Binding ChosenTable}" />
+					
 				</ScrollViewer>
-				<StackPanel  Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Width="496">
-					<Button HorizontalAlignment="Stretch" Height="49" Content="Add col" Width="124"
+
+				<Grid ColumnDefinitions="*,*" Grid.Column="1" Grid.Row="1" ShowGridLines="False" Background="LightGray">
+					<Button Grid.Column="0" HorizontalAlignment="Stretch" Height="49" Content="Add row" Command="{Binding AddRow}"
 						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
-					<Button HorizontalAlignment="Stretch" Height="49" Content="Delete col" Width="124"
-						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
-					<Button HorizontalAlignment="Stretch" Height="49" Content="Add row" Width="124"
-						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
-					<Button HorizontalAlignment="Stretch" Height="49" Content="Delete row" Width="124"
+					<Button Grid.Column="1" HorizontalAlignment="Stretch" Height="49" Content="Delete row" Command="{Binding DelRow}"
 						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
 
-				</StackPanel>
+				</Grid>
 				<Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Height="49" Content="Request"
-						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+						Click="RequestClick"></Button>
 
 			</Grid>
 		</TabItem>
 		<TabItem Header="Request" VerticalContentAlignment="Center" FontSize="15">
 			<Grid RowDefinitions="*,50" ColumnDefinitions="3*,*" ShowGridLines="False" MinWidth="500" Background="LightGray" Margin="0,0,0,10">
-				<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Background="LightGray" Margin="0,0,0,10">
-					<DataGrid Items="{Binding Items}" AutoGenerateColumns="false" Name="RequestGrid" ColumnWidth="108"
-							  HorizontalAlignment="Stretch" VerticalAlignment="Top">
-						<DataGrid.Columns>
-							<DataGridTemplateColumn Header="column 1">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding a}"  Width="108" TextAlignment="Center"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-
-							<DataGridTemplateColumn Header="column 2">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding b}"  Width="108" TextAlignment="Center"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-						</DataGrid.Columns>
-					</DataGrid>
-				</ScrollViewer>
+				
 				<Button Grid.Row="1" HorizontalAlignment="Stretch" Height="49" Content="Delete request"
 						FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
 				<StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="4">
