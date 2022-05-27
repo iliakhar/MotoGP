@@ -20,12 +20,14 @@ namespace motoGP.Models
         public WhereProperty()
         {
             TableInd = 0;
+            isConnect = true;
             Signs = new ObservableCollection<string> { "", ">", "<", "=" };
             ConectWord = new ObservableCollection<string> { "", "OR", "AND" };
         }
 
         private int tableInd, atrInd, signInd, connectInd, groupInd, groupTbInd;
         string secOperand, text;
+        public bool isConnect;
         ObservableCollection<string> signs, conectWord, groupTb, whereAtr;
         public string SecOperand
         {

@@ -19,36 +19,38 @@ namespace motoGP.Models
 
         public SelectProperty()
         {
-            SelectInd = 0;
+            TableInd = 0;
+            Agreg = new ObservableCollection<string> { "", "AVG", "SUM", "MIN", "MAX", "COUNT" };
         }
 
-        private int selectInd, agrInd, agrTableInd, groupInd, tableInd;
+        private int colInd, agrInd, agrTbInd, tableInd;
+        ObservableCollection<string> table; 
+        public ObservableCollection<string> Agreg { get; set; }
+        public ObservableCollection<string> Table
+        {
+            get => table;
+            set { table = value; NotifyPropertyChanged(); }
+        }
         public int TableInd
         {
             get => tableInd;
             set { tableInd = value; NotifyPropertyChanged(); }
         }
-        public int SelectInd
+        public int ColInd
         {
-            get => selectInd;
-            set { selectInd = value; NotifyPropertyChanged(); }
+            get => colInd;
+            set { colInd = value; NotifyPropertyChanged(); }
         }
         public int AgrInd
         {
             get => agrInd;
             set { agrInd = value; NotifyPropertyChanged(); }
         }
-        public int AgrTableInd
+        public int AgrTbInd
         {
-            get => agrTableInd;
-            set { agrTableInd = value; NotifyPropertyChanged(); }
+            get => agrTbInd;
+            set { agrTbInd = value; NotifyPropertyChanged(); }
         }
-        public int GroupInd
-        {
-            get => groupInd;
-            set { groupInd = value; NotifyPropertyChanged(); }
-        }
-
-        
+     
     }
 }

@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
+			 MinHeight="500" MaxHeight="500"
+			 MinWidth="500" MaxWidth="500"
+             x:Class="motoGP.Views.ShowReqTextView">
+	<StackPanel>
+		<TextBlock x:Name="ReqName" FontSize="20" Margin="20,20,0,0"/>
+		<TextBox x:Name="ReqText" FontSize="20" Focusable="False" Margin="20" MinWidth="460"
+				 MaxWidth="460" Height="410" />
+	</StackPanel>
+</UserControl>

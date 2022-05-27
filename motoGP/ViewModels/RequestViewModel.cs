@@ -17,7 +17,8 @@ namespace motoGP.ViewModels
 
         public RequestViewModel(DataSet tableSet, List<string> strRequests)
         {
-            strRequests = new List<string> { "111", "222", "333" };
+            if(strRequests == null)
+                strRequests = new List<string>();
             ReqNames = new ObservableCollection<string>();
             for (int i = 0; i < strRequests.Count; i++)
                 ReqNames.Add("Request " + i.ToString());
@@ -25,7 +26,7 @@ namespace motoGP.ViewModels
             //UsebleTablesAndReq.Union(ReqNames);
             foreach(var it in ReqNames)
                UsebleTablesAndReq.Add(it);
-            Agreg = new ObservableCollection<string> { "", "AVG", "SUM", "MIN", "MAX", "COUNT" };
+            
             SQLiteConnection sql_con;
             StrReq = strRequests;
             Send = ReactiveCommand.Create(() => StrReq);
@@ -52,9 +53,11 @@ namespace motoGP.ViewModels
             JoinPr = new JoinProperty();
             FromPr = new FromProperty();
             WhPr = new WhereProperty();
-            JoinEn = WhereEn = true;
-            SelectEn = true;
-            whereStr = "";
+            SelectEn = JoinEn = WhereEn = SaveEn = false;
+            FromEn = true;
+            selStr = whereStr = "";
+            corespNames = new List<int> { 0 };
+            ReqListInd = -1;
         }
         public ReactiveCommand<Unit, List<string>> Send { get; set; }
         public ReactiveCommand<Unit, Unit> Cancel { get; set; }
@@ -89,14 +92,42 @@ namespace motoGP.ViewModels
         }
 
 
-        string curReq, fromStr, whereStr;
+        string curReq, fromStr, whereStr, selStr;
         public string CurReq
         {
             get => curReq;
             set { this.RaiseAndSetIfChanged(ref curReq, value); }
         }
-        int lastFromInd;
-
+        int lastFromInd, reqListInd;
+        public List<int> corespNames;
+        public int ReqListInd
+        {
+            get => reqListInd;
+            set => this.RaiseAndSetIfChanged(ref reqListInd, value);
+        }
+        public void AddSel()
+        {
+            if (SelPr.TableInd == 0) return;
+            if (selPr.ColInd!=0)
+            {
+                if (selPr.ColInd <= 0) return;
+                if (selStr.Contains("SELECT"))
+                    selStr += ", " + TableName[corespNames[selPr.TableInd]] + "." + selPr.Table[SelPr.ColInd];
+                else selStr += "SELECT " + TableName[corespNames[selPr.TableInd]] + "." + selPr.Table[SelPr.ColInd];
+            }
+            if (selPr.AgrInd > 0 && selPr.AgrTbInd > 0)
+            {
+                if (selStr.Contains("SELECT"))
+                    selStr += ", "+ SelPr.Agreg[SelPr.AgrInd] + "("+ TableName[corespNames[selPr.TableInd]] + "." + selPr.Table[SelPr.AgrTbInd]+")";
+                else selStr += "SELECT " + SelPr.Agreg[SelPr.AgrInd] + "(" + TableName[corespNames[selPr.TableInd]] + "." + selPr.Table[SelPr.AgrTbInd] + ")";
+            }
+            if (selStr != "")
+            {
+                SaveEn = true;
+                CurReq = selStr + "\n" + fromStr + whereStr;
+            }
+            else CurReq = fromStr + whereStr;
+        }
         public void AddFrom()
         {
             if (TableName[FromPr.TableInd] != "")
@@ -107,23 +138,26 @@ namespace motoGP.ViewModels
                     fromStr = "FROM " + name;
                     UsebleTables.Add(name);
                     UsebleTablesAndReq.Add(name);
+                    corespNames.Add(FromPr.TableInd);
                 }
-                else if (!(fromStr.Contains(" " + name + ",") || fromStr.Contains(" " + name + " ") ||
+                else if (!(fromStr.Contains(" " + name + ",") || (fromStr.Contains(" " + name + " ")&& !fromStr.Contains("N " + name + " ")) ||
                     (fromStr.LastIndexOf(" " + name) + name.Length + 1) == fromStr.Length))
                 {
                     fromStr += ", " + name;
                     UsebleTables.Add(name);
                     UsebleTablesAndReq.Add(name);
+                    corespNames.Add(FromPr.TableInd);
                 }
                 CurReq = fromStr;
                 LastFromAtr = new ObservableCollection<string>(atributes[FromPr.TableInd]);
                 lastFromInd = FromPr.TableInd;
+                SelectEn = JoinEn = WhereEn = true;
             }
             
         }
         public void AddJoin()
         {
-            if(JoinPr.TableInd!=0 && JoinPr.AtrIndFirst!=0 && JoinPr.AtrIndSec != 0
+            if(JoinPr.TableInd>0 && JoinPr.AtrIndFirst!=0 && JoinPr.AtrIndSec > 0
                 && TableName[JoinPr.TableInd]!= TableName[FromPr.TableInd])
             {
                 fromStr+=" INNER JOIN "+TableName[JoinPr.TableInd];
@@ -136,7 +170,8 @@ namespace motoGP.ViewModels
         public void Input()
         {
             string txt = "";
-            if (WhPr.TableInd == 0) return;
+            if (WhPr.isConnect == false) return;
+            if (WhPr.TableInd <= 0) return;
             if (WhPr.TableInd <= ReqNames.Count)
             {
                 txt += " ( " + StrReq[WhPr.TableInd - 1] + " ) ";
@@ -145,23 +180,73 @@ namespace motoGP.ViewModels
             {
                 txt += " " + UsebleTablesAndReq[WhPr.TableInd] + "." + WhPr.WhereAtr[WhPr.AtrInd];
             }
-            if (WhPr.SignInd == 0) return;
+            if (WhPr.SignInd <= 0) return;
             txt += " " + WhPr.Signs[WhPr.SignInd];
-            if(WhPr.SecOperand == "") return;
-            txt += WhPr.SecOperand;
+            if(WhPr.SecOperand == "" || WhPr.SecOperand == null) return;
+            if (WhPr.SecOperand.IndexOf("Request ") == 0)
+            {
+                bool findReq = false;
+                for(int i = 0; i < ReqNames.Count; i++)
+                    if (ReqNames[i] == WhPr.SecOperand)
+                    {
+                        findReq = true;
+                        txt += " ( " + StrReq[i] + " ) ";
+                    }
+                if (!findReq) return;
+            }
+            else txt += WhPr.SecOperand;
             if (WhPr.ConnectInd != 0) txt += " " + WhPr.ConectWord[WhPr.ConnectInd];
+            else WhPr.isConnect = false;
             WhPr.Text += " " + txt;
         }
 
         public void AddWhere()
         {
-            if (WhPr.Text == "") return;
+            if (WhPr.Text == "" || WhPr.Text == null) return;
             whereStr += "\nWHERE " + WhPr.Text;
-            if (WhPr.GroupTbInd != 0 && WhPr.GroupInd != 0)
+            if (WhPr.GroupTbInd > 0 && WhPr.GroupInd > 0)
                 whereStr += " GROUP BY " + UsebleTables[WhPr.GroupTbInd] + "." + WhPr.GroupTb[WhPr.GroupInd];
             CurReq = fromStr + whereStr;
+            FromEn = JoinEn = WhereEn = false;
+            SelectEn = true;
         }
 
+        public void SaveReq()
+        {
+            SelectEn = JoinEn = WhereEn = SaveEn = false;
+            FromEn = true;
+            StrReq.Add(CurReq);
+            CurReq = "";
+            if (ReqNames.Count > 0)
+            {
+                string lastNumbStr = ReqNames[ReqNames.Count - 1].Substring(ReqNames[ReqNames.Count - 1].IndexOf(" ") + 1);
+                int lastNumb = Int32.Parse(lastNumbStr);
+                ReqNames.Add("Request " + (lastNumb + 1).ToString());
+            }
+            else ReqNames = new ObservableCollection<string> { "Request 0" };
+            UsebleTablesAndReq.Clear();
+            UsebleTables.Clear();
+            UsebleTablesAndReq = new ObservableCollection<string> { "" };
+            UsebleTables = new ObservableCollection<string> { "" };
+            foreach (var it in ReqNames)
+                UsebleTablesAndReq.Add(it);
+            SelPr = new SelectProperty();
+            JoinPr = new JoinProperty();
+            FromPr = new FromProperty();
+            WhPr = new WhereProperty();
+        }
+        public void DelReq()
+        {
+            StrReq.RemoveAt(ReqListInd);
+            ReqNames.RemoveAt(ReqListInd);
+            if(ReqNames.Count > 0)
+                for (int i = 1; i < ReqNames.Count + 1; i++)
+                {
+                    if(ReqNames[i-1] !=UsebleTablesAndReq[i])
+                        UsebleTablesAndReq.RemoveAt(i);
+                }
+            else UsebleTablesAndReq.RemoveAt(1);
+        }
 
         /// <summary>
         /// /////////////////////////////////////////////////
@@ -209,7 +294,7 @@ namespace motoGP.ViewModels
         }
         ///////////////////////////////////////
 
-        bool selectEn, joinEn, whereEn;
+        bool selectEn, joinEn, whereEn, fromEn, saveEn;
         public bool SelectEn
         {
             get => selectEn;
@@ -225,11 +310,21 @@ namespace motoGP.ViewModels
             get => whereEn;
             set { this.RaiseAndSetIfChanged(ref whereEn, value); }
         }
+        public bool FromEn
+        {
+            get => fromEn;
+            set { this.RaiseAndSetIfChanged(ref fromEn, value); }
+        }
+        public bool SaveEn
+        {
+            get => saveEn;
+            set { this.RaiseAndSetIfChanged(ref saveEn, value); }
+        }
         ///////////////////////////////////////
         public ObservableCollection<string> TableName { get; set; }
         public List<List<string>> atributes;
         
-        public ObservableCollection<string> Agreg { get; set; }
+        
 
         
     }
