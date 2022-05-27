@@ -45,7 +45,7 @@
 				Command="{Binding $parent[Window].DataContext.OpenReqWind}"></Button>
 		<Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Height="49" Content="Request Res"
 				FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-				Click="RequestResClick"></Button>
+			Command="{Binding $parent[Window].DataContext.OpenReqResWind}"></Button>
 
 	</Grid>
 </UserControl>

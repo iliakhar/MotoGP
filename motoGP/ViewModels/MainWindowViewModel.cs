@@ -71,17 +71,39 @@ namespace motoGP.ViewModels
                     }
                     Content = mainTabWind;
                     mainTabWind.CurrentTableIndex=-1;
+                    MaxWidth = 2048;
+                    Width = MinWidth = 700;
+                    Height = MaxHeight = 2048;
+                    MinHeight = 500;
                 }
                 );
+            
             Content = vm;
         }
-        public void OpenMainTablesWind()
+        public void OpenReqResWind(DataSet tables)
         {
-            MaxWidth = 2048;
-            Width = MinWidth = 700;
-            Height = MaxHeight = 2048;
-            MinHeight = 500;
-            Content = mainTabWind;
+            //Width = MaxWidth = MinWidth = 850;
+            //Height = MaxHeight = MinHeight = 700;
+            var vm = new RequestResultsViewModel(mainTabWind.Tables, mainTabWind.StrReq);
+            Observable.Merge(vm.Send)
+                .Take(1)
+                .Subscribe(msg =>
+                {
+                    if (msg != null)
+                    {
+                        mainTabWind.StrReq = msg;
+                    }
+                    Content = mainTabWind;
+                    mainTabWind.CurrentTableIndex = -1;
+                    MaxWidth = 2048;
+                    Width = MinWidth = 700;
+                    Height = MaxHeight = 2048;
+                    MinHeight = 500;
+                }
+                );
+            
+            Content = vm;
         }
+
     }
 }

@@ -26,7 +26,7 @@ namespace motoGP.Views
         }
         private async void RequestResClick(object sender, RoutedEventArgs e)
         {
-            await new RequestsResultsView().ShowDialog<string?>((Window)this.VisualRoot);
+            //await new RequestsResultsView().ShowDialog<string?>((Window)this.VisualRoot);
         }
 
         private void OnCellEditEnd(object sender, DataGridCellEditEndingEventArgs args)

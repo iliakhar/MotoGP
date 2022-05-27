@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="motoGP.Views.RequestResultsView">
+	<Grid RowDefinitions="*, *, 60">
+		
+		<TabControl Grid.Row="0" Items="{Binding ReqNames}" SelectionChanged="OnSelect" />
+		<DataGrid
+			SelectedIndex="{Binding SelectRow}"
+			Margin="0, 5, 0, 0"
+			Grid.Row="1"
+	        x:Name="dGrid"
+	        AutoGenerateColumns="False"
+	        VerticalScrollBarVisibility="Visible"
+	        IsReadOnly="False"
+	        />
+		<Grid ColumnDefinitions="*, *" Grid.Row="2">
+
+			<Button Margin="2" Grid.Column="0" Content="Back" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="50" FontSize="18"
+						 HorizontalAlignment="Stretch" VerticalAlignment="Center"
+						 Command="{Binding Send}"/>
+			<Button Margin="2" Grid.Column="1" Content="Delete" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="50" FontSize="18"
+						HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+		</Grid>
+		
+	</Grid>
+</UserControl>
