@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+			 
+
+             x:Class="motoGP.Views.TablesView">
+	
+	<Grid ColumnDefinitions="180,*" RowDefinitions="*,50,50" ShowGridLines="False" MinWidth="500" Background="LightGray">
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="0">
+			<ListBox Items="{Binding Tables.Tables}" SelectionChanged="OnSelect" SelectedIndex="{Binding CurrentTableIndex}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding TableName}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</ScrollViewer>
+
+		<DataGrid
+			IsEnabled="{Binding IsTableChosen}"
+			Items="{Binding DtView}"
+			Grid.RowSpan="2"
+			SelectedIndex="{Binding SelectRow}"
+			Grid.Column="1" Grid.Row="0"
+	        x:Name="dGrid"
+	        AutoGenerateColumns="False"
+	        VerticalScrollBarVisibility="Visible"
+	        IsReadOnly="False"
+	        >
+		</DataGrid>
+
+		<Grid ColumnDefinitions="*,*,*" Grid.Column="1" Grid.Row="2" ShowGridLines="False" Background="LightGray">
+			<Button IsEnabled="{Binding IsTableChosen}" Grid.Column="0" HorizontalAlignment="Stretch" Height="49" Content="Add row" Click="OnAddRowButtonClick"
+				FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+			<Button IsEnabled="{Binding IsTableChosen}" Grid.Column="1" HorizontalAlignment="Stretch" Height="49" Content="Delete row" Click="OnDelRowButtonClick"
+				FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+			<Button Grid.Column="2" HorizontalAlignment="Stretch" Height="49" Content="Save" Click="OnSaveClick"
+							FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+
+		</Grid>
+		<Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" Height="49" Content="Request"
+				FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+				Command="{Binding $parent[Window].DataContext.OpenReqWind}"></Button>
+		<Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Height="49" Content="Request Res"
+				FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+				Click="RequestResClick"></Button>
+
+	</Grid>
+</UserControl>

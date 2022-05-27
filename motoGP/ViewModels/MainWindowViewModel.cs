@@ -5,81 +5,83 @@ using System.Collections.ObjectModel;
 using motoGP.Models;
 using ReactiveUI;
 using System.Reactive;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Reactive.Linq;
+using motoGP.Views;
+using System.Data;
 
 namespace motoGP.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        ViewModelBase chosenTable;
-        public ViewModelBase ChosenTable
+        ViewModelBase content;
+        private int maxHeight, minHeight, maxWidth, minWidth;
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public int MaxHeight
         {
-            get => chosenTable;
-            set => this.RaiseAndSetIfChanged(ref chosenTable, value);
+            get { return maxHeight; }
+            set {this.RaiseAndSetIfChanged(ref maxHeight, value); }
         }
-        public ObservableCollection<TBname> TableName { get; set; }
-        public ObservableCollection<TabModel> Tabs { get; set; }
-        private int tablesInd;
-        private int rowInd;
-        private int currTabInd;
-        public int CurrTabInd
+        public int MinHeight
         {
-            get => currTabInd;
-            set { this.RaiseAndSetIfChanged(ref currTabInd, value); }
+            get { return minHeight; }
+            set {this.RaiseAndSetIfChanged(ref minHeight, value);}
         }
-        public int TablesInd
+        public int MaxWidth
         {
-            get => tablesInd;
-            set { this.RaiseAndSetIfChanged(ref tablesInd, value); }
+            get { return maxWidth; }
+            set { this.RaiseAndSetIfChanged(ref maxWidth, value);}
         }
-        public int RowInd
+        public int MinWidth
         {
-            get => rowInd;
-            set { this.RaiseAndSetIfChanged(ref rowInd, value); }
+            get { return minWidth; }
+            set { this.RaiseAndSetIfChanged(ref minWidth, value);}
         }
-        public ObservableCollection<Pilot> pilots;
-        public ObservableCollection<Race> races;
-        //public ObservableCollection<DefaultObj> Items { get; set; }
-        //new DefaultObj(1, "a", "b"), new DefaultObj(2, "c", "d"), new DefaultObj(3, "e", "f")
+
+        ViewModelBase Content
+        {
+            get => content;
+            set => this.RaiseAndSetIfChanged(ref content, value);
+        }
+        //public RequestViewModel reqWind { get; }
+        public TablesViewModel mainTabWind { get; }
         public MainWindowViewModel()
         {
-            TableName = new ObservableCollection<TBname> { new TBname("Pilot"), new TBname("Race")};
-            var DB = new MotoGPContext();
-            TablesInd = 0;
-            pilots = new ObservableCollection<Pilot>(DB.Pilots);
-            races = new ObservableCollection<Race>(DB.Races);
-            ChosenTable = new PilotViewModel(ref pilots);
-            RowInd = 0;
-            //Items = new ObservableCollection<DefaultObj> { new DefaultObj("1", "a", "b"), new DefaultObj("2", "c", "d"), new DefaultObj("3", "e", "f") };
-            //Items.Add(new DefaultObj(1, "a", "b"));
-            AddRow = ReactiveCommand.Create(() => AddR());
-            DelRow = ReactiveCommand.Create(() => Del());
-            DelRequest = ReactiveCommand.Create(() => DelReq());
+            mainTabWind = new TablesViewModel();
+            MaxWidth = 2048;
+            MinWidth = 700;
+            MaxHeight = 2048;
+            MinHeight = 500;
+            Content = mainTabWind;
         }
-        public ReactiveCommand<Unit, int> AddRow { get; }
-        public ReactiveCommand<Unit, int> DelRow { get; }
-        public ReactiveCommand<Unit, int> DelRequest { get; }
-        private int AddR()
+        public void OpenReqWind(DataSet tables)
         {
-            switch (TablesInd)
-            {
-                case 0: pilots.Add(new Pilot(pilots.Count + 1)); break;
-                case 1: races.Add(new Race(races.Count + 1)); break;
-            }
-            return 0;
+            Width = MaxWidth = MinWidth = 850;
+            Height = MaxHeight = MinHeight = 700;
+            var vm = new RequestViewModel(mainTabWind.Tables, mainTabWind.StrReq);
+            Observable.Merge(vm.Send)
+                .Take(1)
+                .Subscribe(msg =>
+                {
+                    if (msg != null)
+                    {
+                        mainTabWind.StrReq=msg;
+                    }
+                    Content = mainTabWind;
+                    mainTabWind.CurrentTableIndex=-1;
+                }
+                );
+            Content = vm;
         }
-        private int Del()
+        public void OpenMainTablesWind()
         {
-            switch (TablesInd)
-            {
-                case 0: pilots.RemoveAt(RowInd); break;
-                case 1: races.RemoveAt(RowInd); break;
-            }
-            return 0;
-        }
-        private int DelReq()
-        {
-            
-            return 0;
+            MaxWidth = 2048;
+            Width = MinWidth = 700;
+            Height = MaxHeight = 2048;
+            MinHeight = 500;
+            Content = mainTabWind;
         }
     }
 }

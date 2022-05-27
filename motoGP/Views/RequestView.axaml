@@ -3,84 +3,125 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="700"
-		 	 Width="850" Height="700"
-		 	 MinWidth="850" MinHeight="700"
-			 MaxWidth="850" MaxHeight="700"
-             x:Class="motoGP.Views.Request">
 
-	<Grid RowDefinitions="1.5*,*,50" ColumnDefinitions="2.5*,*" ShowGridLines="False"
-	  Background="LightGray" >
-		<Border BorderBrush="#696969"  Grid.RowSpan="2" BorderThickness="2" Grid.Column="1" Grid.Row="0" Margin="1">
+
+             x:Class="motoGP.Views.RequestView">
+	<Grid RowDefinitions="0.4*,0.75*,1.2*,0.7*,50" ColumnDefinitions="2.5*,*" ShowGridLines="False"
+		  Background="LightGray" >
+		<Border BorderBrush="#696969"  Grid.RowSpan="4" BorderThickness="2" Grid.Column="1" Grid.Row="0" Margin="1">
 			<StackPanel>
-				<TextBlock Text="Requests:" FontSize="18" Margin="8,7,8,8"/>
-				<ListBox Margin="4,0,4,4" MinHeight="540" Background="#E8E8E8"
-						  BorderThickness="1" BorderBrush="#696969">12345</ListBox>
-				<Button Height="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-						HorizontalAlignment="Stretch" Margin="3,3,4,3" FontSize="18" Content="Delete"/>
+				<TextBlock Text="Requests:" FontSize="18" Margin="8,4,8,8"/>
+				<ListBox Margin="4,4,4,4" MinHeight="338" Background="#E8E8E8"
+						  BorderThickness="1" BorderBrush="#696969" Items="{Binding ReqNames}"/>
+				<TextBox Text="{Binding CurReq}" Margin="4,7,4,4" MinHeight="204" MaxHeight="204" Focusable="False"  AcceptsReturn="True" TextWrapping="Wrap"/>
+				<Button Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+						HorizontalAlignment="Stretch" Margin="3,3,4,3" FontSize="18" Content="Delete" />
 			</StackPanel>
 		</Border>
 
-		<Border BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="0" Margin="1">
-			<Grid RowDefinitions="0.3*,*,*,*,*,*" ColumnDefinitions="1.3*,*" ShowGridLines="False">
+		<Border IsEnabled="{Binding SelectEn}" BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="3"  Margin="1">
+			<Grid RowDefinitions="0.4*,*,0.8*" ColumnDefinitions="1.4*,*" ShowGridLines="False">
 				<TextBlock Grid.Column="0" Grid.Row="0" Text="Select:" FontSize="20" FontWeight="Bold" Margin="10,5,0,0"/>
-				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-					<TextBlock Text="Table:" FontSize="18" Margin="10,-8,10,0"/>
-					<ComboBox TextBlock.FontSize="15" MinWidth="270" Margin="0,-11,0,0"></ComboBox>
+				<StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
+					<TextBlock Text="Table:" FontSize="18" Margin="10,0,10,0"/>
+					<ComboBox SelectedIndex="{Binding SelPr.TableInd}" SelectionChanged="ChangeSelect" Items="{Binding TableName}" TextBlock.FontSize="15" MinWidth="326" Margin="10,0,0,0"/>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
-					<TextBlock Text="Columns:" FontSize="18" Margin="10,18,10,0"/>
-					<ListBox  MinWidth="143" MaxWidth="130" Background="#E8E8E8" Margin="0,12,0,5"
-							 SelectionMode="Multiple,Toggle" BorderThickness="1" BorderBrush="#696969">1234</ListBox>
+				<StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+					<TextBlock Text="Column:" FontSize="18" Margin="10,0,10,0"/>
+					<ComboBox SelectedIndex="{Binding SelPr.TableInd}" SelectionChanged="ChangeSelect" Items="{Binding TableName}" TextBlock.FontSize="15" MinWidth="230" Margin="10,0,0,0"/>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center">
-					<TextBlock Text="Group:" FontSize="18" Margin="7,-2,5,0"/>
-					<ComboBox TextBlock.FontSize="15" MinWidth="360" Margin="3,-8,0,0"></ComboBox>
+				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center">
+					
+					<ComboBox SelectedIndex="{Binding SelPr.AgrInd}" Items="{Binding Agreg}" TextBlock.FontSize="15" MinWidth="100" Margin="10,0,10,0"/>
+					<ComboBox SelectedIndex="{Binding SelPr.AgrTableInd}" Items="{Binding CurrAtr}" TextBlock.FontSize="15" MinWidth="211"  MaxWidth="211" Margin="5,0,10,0"/>
 				</StackPanel>
+				
+				
 
-				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">
-					<TextBlock Text="Where:" FontSize="18" Margin="7,6,5,0"/>
-					<ComboBox Height="35" Width="200" />
-					<ComboBox Height="35" Width="100" Margin="5,0,0,0"/>
-					<TextBox Height="35" Width="200" Margin="5,0,0,0"/>
-				</StackPanel>
-				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Center">
-					<ComboBox Height="35" Width="100" Margin="72,11,0,0"/>
-					<Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Content="Input" VerticalContentAlignment="Center"
-						HorizontalContentAlignment="Center"  FontSize="18" Height="40"
-						Margin="10,1,10,4" HorizontalAlignment="Stretch"/>
-					<TextBox Height="60" Width="329" AcceptsReturn="True" TextWrapping="Wrap"/>
-				</StackPanel>
-
-				<Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Content="Add" VerticalContentAlignment="Center"
-						HorizontalContentAlignment="Center" Height="50" FontSize="18"
-						Margin="10,1,10,4" HorizontalAlignment="Stretch"/>
+				<Button Grid.Column="1" Grid.Row="2" Content="Add" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="40" FontSize="18"
+						Margin="10,3,10,4" HorizontalAlignment="Stretch"/>
 			</Grid>
 		</Border>
+		<!--################################################ -->
+		<Border IsEnabled="{Binding JoinEn}" BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="0"  Margin="1">
+			<Grid RowDefinitions="0.4*,*" ColumnDefinitions="*,*" ShowGridLines="False">
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="From:" FontSize="20" FontWeight="Bold" Margin="10,4,0,0"/>
+				<StackPanel  Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Orientation="Horizontal">
+					<TextBlock Text="Table:" FontSize="18" Margin="13,2,0,0"/>
+					<ComboBox SelectedIndex="{Binding FromPr.TableInd}" Items="{Binding TableName}" TextBlock.FontSize="15" MinWidth="220" Margin="11,0,0,0"/>
+				</StackPanel>
 
-		<Border BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="1"  Margin="1">
-			<Grid RowDefinitions="0.2*,*,0.4*" ColumnDefinitions="*,*" ShowGridLines="False">
+				<Button Grid.Column="1" Grid.Row="3" Content="Add" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="40" FontSize="18" Command="{Binding AddFrom}"
+						Margin="10,4,10,4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+			</Grid>
+		</Border>
+		<!--################################################ -->
+		
+		<Border IsEnabled="{Binding JoinEn}" BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="1"  Margin="1">
+			<Grid RowDefinitions="0.4*,*,0.6*" ColumnDefinitions="*,*,*" ShowGridLines="False">
 				<TextBlock Grid.Column="0" Grid.Row="0" Text="Join:" FontSize="20" FontWeight="Bold" Margin="10,5,0,0"/>
-				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-					<TextBlock Text="Tables:" FontSize="18" Margin="10,11,10,0"/>
-					<ListBox  MinWidth="130" MaxWidth="130" Background="#E8E8E8" Margin="0,6,0,5"
-							 SelectionMode="Multiple,Toggle" BorderThickness="1" BorderBrush="#696969">1234</ListBox>
+				<StackPanel  Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
+					<TextBlock Text="Table:" FontSize="18" Margin="13,0,0,0"/>
+					<ComboBox SelectedIndex="{Binding JoinPr.TableInd}" SelectionChanged="ChangeJoin" Items="{Binding TableName}" TextBlock.FontSize="15" MinWidth="180" Margin="11,0,0,0"/>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-					<TextBlock Text="Atributes:" FontSize="18" Margin="10,11,10,0"/>
-					<ListBox  MinWidth="130" MaxWidth="130" Background="#E8E8E8" Margin="0,6,0,5"
-							 SelectionMode="Multiple,Toggle" BorderThickness="1" BorderBrush="#696969">1234</ListBox>
+				<StackPanel  Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+					<TextBlock Text="Atribute 1:" FontSize="18" Margin="13,0,0,0"/>
+					<ComboBox Items="{Binding LastFromAtr}" SelectedIndex="{Binding JoinPr.AtrIndFirst}" TextBlock.FontSize="15" MinWidth="180" Margin="11,0,0,0"/>
+				</StackPanel>
+				<StackPanel  Grid.Column="2" Grid.Row="1" VerticalAlignment="Center">
+					<TextBlock Text="Atribute 2:" FontSize="18" Margin="13,0,0,0"/>
+					<ComboBox Items="{Binding JoinAtr}" SelectedIndex="{Binding JoinPr.AtrIndSec}" TextBlock.FontSize="15" MinWidth="180" Margin="11,0,0,0"/>
 				</StackPanel>
 
-				<Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Content="Add" VerticalContentAlignment="Center"
-						HorizontalContentAlignment="Center" Height="50" FontSize="18"
+				<Button Command="{Binding AddJoin}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Content="Add" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="40" FontSize="18"
 						Margin="10,4,10,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
 			</Grid>
 		</Border>
+		<!--################################################ -->
+		<Border IsEnabled="{Binding WhereEn}" BorderBrush="#696969" BorderThickness="2" Grid.Column="0" Grid.Row="2"  Margin="1">
+			<Grid RowDefinitions="0.4*,0.8*,1.2*,0.7*,0.8*" ShowGridLines="False">
 
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="Where:" FontSize="20" FontWeight="Bold" Margin="10,5,0,0"/>
+				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
+					<ComboBox Items="{Binding UsebleTablesAndReq}" SelectionChanged="ChangeWhere" SelectedIndex="{Binding WhPr.TableInd}" Height="35" Width="160" Margin="10,0,0,0"/>
+					<ComboBox Items="{Binding WhPr.WhereAtr}" SelectedIndex="{Binding WhPr.AtrInd}" Height="35" Width="160" Margin="5,0,0,0"/>
+					<ComboBox Items="{Binding WhPr.Signs}" SelectedIndex="{Binding WhPr.SignInd}" Height="35" Width="80" Margin="5,0,0,0"/>
+					<TextBox Text="{Binding WhPr.SecOperand}" Height="35" Width="165" Margin="5,0,0,0" Focusable="True"/>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center">
+					<ComboBox Items="{Binding WhPr.ConectWord}" SelectedIndex="{Binding WhPr.ConnectInd}" Height="35" Width="100" Margin="10,11,0,0"/>
+					<Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Content="Input" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center"  FontSize="18" Height="40" Command="{Binding Input}"
+						Margin="10,1,10,4" HorizontalAlignment="Stretch"/>
+					<TextBox Text="{Binding WhPr.Text}" Height="60" Width="399" Focusable="False" AcceptsReturn="True" TextWrapping="Wrap"/>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Grid.RowSpan="1" VerticalAlignment="Center">
+					<TextBlock Text="Group:" FontSize="18" Margin="10,5,5,0"/>
+					<ComboBox SelectionChanged="ChangeGroup" SelectedIndex="{Binding WhPr.GroupTbInd}" Items="{Binding UsebleTables}" TextBlock.FontSize="15" MinWidth="260" Margin="3,0,0,0"></ComboBox>
+					<ComboBox SelectedIndex="{Binding WhPr.GroupInd}" Items="{Binding WhPr.GroupTb}" TextBlock.FontSize="15" MinWidth="250" Margin="5,0,0,0"></ComboBox>
+				</StackPanel>
 
-
-		<Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Content="Execute" VerticalContentAlignment="Center"
-						HorizontalContentAlignment="Center" Height="50" FontSize="18"
-						Margin="6,2,6,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+				<Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" Content="Add" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="40" FontSize="18" Command="{Binding AddWhere}"
+						Margin="10,1,10,4" HorizontalAlignment="Stretch"/>
+			</Grid>
+		</Border>
+		<!--################################################ -->
+		<Grid ColumnDefinitions="*,*,*" ShowGridLines="False" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Height="50">
+			<Button Margin="1" Grid.Column="0" Content="Add request" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="48" FontSize="18"
+						 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+			<Button Margin="1" Grid.Column="1" Content="Save request" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="48" FontSize="18"
+						 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+			<Button Margin="1" Grid.Column="2" Content="Exit" VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center" Height="48" FontSize="18"
+						 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+					Command="{Binding Send}"/>
+		</Grid>
+		
 	</Grid>
 </UserControl>
