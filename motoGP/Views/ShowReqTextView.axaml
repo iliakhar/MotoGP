@@ -9,6 +9,6 @@
 	<StackPanel>
 		<TextBlock x:Name="ReqName" FontSize="20" Margin="20,20,0,0"/>
 		<TextBox x:Name="ReqText" FontSize="20" Focusable="False" Margin="20" MinWidth="460"
-				 MaxWidth="460" Height="410" />
+				 MaxWidth="460" Height="410" AcceptsReturn="True" TextWrapping="Wrap"/>
 	</StackPanel>
 </UserControl>
