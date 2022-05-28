@@ -35,6 +35,12 @@ namespace motoGP.ViewModels
             get => tables;
             set => this.RaiseAndSetIfChanged(ref tables, value);
         }
+        int tableInd;
+        public int TableInd
+        {
+            get => tableInd;
+            set => this.RaiseAndSetIfChanged(ref tableInd, value);
+        }
         ObservableCollection<string> reqNames;
         public ObservableCollection<string> ReqNames
         {

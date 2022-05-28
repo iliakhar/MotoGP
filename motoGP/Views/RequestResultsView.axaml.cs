@@ -26,7 +26,32 @@ namespace motoGP.Views
 
         public void OnSelect(object sender, SelectionChangedEventArgs args)
         {
-           
+            var context = DataContext as RequestResultsViewModel;
+            if (context != null && context.TableInd >= 0) 
+            {
+                string sql = context.StrReq[context.TableInd];
+                string connectionStr = "Data Source=MotoGP.sqlite3;Mode=ReadWrite";
+                SQLiteConnection sql_con;
+                
+
+                using (sql_con = new SQLiteConnection(connectionStr))
+                {
+                    try
+                    {
+                        sql_con.Open();
+                        SQLiteCommand command = new SQLiteCommand(sql, sql_con);
+                        DataTable tablesNames = new DataTable();
+                        DataTable table = new DataTable();
+                        table.Load(command.ExecuteReader());
+                        //context.Tables.Tables.Add(table);
+                        ChangeTable(table);
+
+                    }
+                    catch{ }
+                    
+                }
+            }
+                
         }
         void ChangeTable(DataTable table)
         {
@@ -45,7 +70,7 @@ namespace motoGP.Views
                 {
                     Header = col.ColumnName,
                     Binding = new Binding($"ItemArray[{i++}]"),
-                    IsReadOnly = false
+                    IsReadOnly = true
                 });
             }
 

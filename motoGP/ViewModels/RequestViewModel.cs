@@ -125,6 +125,8 @@ namespace motoGP.ViewModels
             {
                 SaveEn = true;
                 CurReq = selStr + "\n" + fromStr + whereStr;
+                FromEn = JoinEn = WhereEn = false;
+                SelectEn = true;
             }
             else CurReq = fromStr + whereStr;
         }
